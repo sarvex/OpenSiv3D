@@ -689,6 +689,27 @@ namespace s3d
 			return detail::NormalizePath(Unicode::FromWstring(relativePath.wstring()));
 		}
 
+		Array<FilePath> MountPoints()
+		{
+			const DWORD driveMask = ::GetLogicalDrives();
+			
+			char32 driveLetter = U'A';
+
+			Array<FilePath> results;
+
+			for (int32 i = 0; i < 26; ++i)
+			{
+				if (driveMask & (1 << i))
+				{
+					results << (FilePath{ driveLetter } + U":/"_sv);
+				}
+				
+				++driveLetter;
+			}
+
+			return results;
+		}
+
 		bool CreateDirectories(const FilePathView path)
 		{
 			if (not path)

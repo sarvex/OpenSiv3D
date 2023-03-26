@@ -212,6 +212,11 @@ namespace s3d
 		[[nodiscard]]
 		FilePath RelativePath(FilePathView path, FilePathView start = CurrentDirectory());
 
+		/// @brief ドライブまたはマウントポイントの一覧を返します。
+		/// @return ドライブまたはマウントポイントの一覧
+		[[nodiscard]]
+		Array<FilePath> MountPoints();
+
 		/// @brief ディレクトリを作成します。
 		/// @param path 作成するディレクトリのパス
 		/// @remark 間のディレクトリが存在しない場合は自動的に作成します。
