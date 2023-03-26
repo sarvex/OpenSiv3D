@@ -692,8 +692,6 @@ namespace s3d
 		Array<FilePath> MountPoints()
 		{
 			const DWORD driveMask = ::GetLogicalDrives();
-			
-			char32 driveLetter = U'A';
 
 			Array<FilePath> results;
 
@@ -701,10 +699,8 @@ namespace s3d
 			{
 				if (driveMask & (1 << i))
 				{
-					results << (FilePath{ driveLetter } + U":/"_sv);
+					results << (FilePath{ char32(U'A' + i) } + U":/"_sv);
 				}
-				
-				++driveLetter;
 			}
 
 			return results;
