@@ -11,6 +11,7 @@
 
 # include <sys/stat.h>
 # include <mach-o/dyld.h>
+# include <sys/mount.h>
 # include <Siv3D/String.hpp>
 # include <Siv3D/Unicode.hpp>
 # include <Siv3D/FileSystem.hpp>
@@ -737,6 +738,21 @@ namespace s3d
 			}
 
 			return Unicode::Widen(output.string()).replace(U'\\', U'/');
+		}
+	
+		Array<FilePath> MountPoints()
+		{
+			Array<FilePath> mountPoints;
+			
+			struct statfs *mntbuf;
+			const int count = getmntinfo(&mntbuf, MNT_WAIT);
+		
+			for (int i = 0; i < count; ++i)
+			{
+				mountPoints.push_back(Unicode::Widen(mntbuf[i].f_mntonname));
+			}
+
+			return mountPoints;
 		}
 
 		bool CreateDirectories(const FilePathView path)
