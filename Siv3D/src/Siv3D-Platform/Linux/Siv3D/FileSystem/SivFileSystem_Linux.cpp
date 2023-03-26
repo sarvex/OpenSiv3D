@@ -11,6 +11,7 @@
 
 # include <sys/stat.h>
 # include <unistd.h>
+# include <mntent.h>
 # include <glib-2.0/glib.h>
 # include <glib-2.0/gio/gio.h>
 # include <filesystem>
@@ -549,7 +550,7 @@ namespace s3d
 			}
 
 			endmntent(mountsFile);
-			
+
 			return mountPoints;
 		}
 
