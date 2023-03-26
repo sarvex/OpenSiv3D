@@ -548,6 +548,8 @@ namespace s3d
 				mountPoints << Unicode::Widen(entry->mnt_dir);
 			}
 
+			endmntent(mountsFile);
+			
 			return mountPoints;
 		}
 
