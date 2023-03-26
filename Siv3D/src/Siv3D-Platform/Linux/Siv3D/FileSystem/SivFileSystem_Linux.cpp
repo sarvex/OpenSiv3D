@@ -546,7 +546,14 @@ namespace s3d
 		
 			while ((entry = getmntent(mountsFile)) != nullptr)
 			{
-				mountPoints << Unicode::Widen(entry->mnt_dir);
+				FilePath mountPoint = Unicode::Widen(entry->mnt_dir);
+
+				if (not mountPoint.ends_with(U'/'))
+				{
+					mountPoint.push_back(U'/');
+				}
+
+				mountPoints.push_back(std::move(mountPoint));
 			}
 
 			endmntent(mountsFile);
