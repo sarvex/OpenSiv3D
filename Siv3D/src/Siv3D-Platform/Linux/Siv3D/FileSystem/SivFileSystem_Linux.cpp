@@ -531,6 +531,26 @@ namespace s3d
 			return result;
 		}
 
+		Array<FilePath> MountPoints()
+		{
+			FILE* mountsFile = setmntent("/proc/mounts", "r");
+			
+			if (not mountsFile)
+			{
+				return{};
+			}
+
+			Array<FilePath> mountPoints;
+			struct mntent* entry;
+		
+			while ((entry = getmntent(mountsFile)) != nullptr)
+			{
+				mountPoints << Unicode::Widen(entry->mnt_dir);
+			}
+
+			return mountPoints;
+		}
+
 		bool CreateDirectories(const FilePathView path)
 		{
 			if (not path)
