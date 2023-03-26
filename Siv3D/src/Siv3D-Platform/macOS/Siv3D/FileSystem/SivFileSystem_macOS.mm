@@ -749,7 +749,14 @@ namespace s3d
 		
 			for (int i = 0; i < count; ++i)
 			{
-				mountPoints.push_back(Unicode::Widen(mntbuf[i].f_mntonname));
+				FilePath mountPoint = Unicode::Widen(mntbuf[i].f_mntonname);
+				
+				if (not mountPoint.ends_with(U'/'))
+				{
+					mountPoint.push_back(U'/');
+				}
+				
+				mountPoints.push_back(std::move(mountPoint));
 			}
 
 			return mountPoints;
